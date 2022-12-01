@@ -331,10 +331,6 @@ static NSSet *sharedActiveContexts = nil;
 }
 
 - (void) applicationDidFinishLaunching:(NSNotification *)notification {
-    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"fe18dcf4b5fd47a0bf75e0b49321ea93"];
-    // Do some additional configuration if needed here
-    [[BITHockeyManager sharedHockeyManager] startManager];
-
 }
 
 - (void)importVersion1Settings {

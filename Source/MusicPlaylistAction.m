@@ -1,17 +1,17 @@
 //
-//	ITunesPlaylistAction.m
+//	MusicPlaylistAction.m
 //	ControlPlane
 //
 //	Created by David Jennes on 03/09/11.
 //	Copyright 2011. All rights reserved.
 //
 
-#import "ITunesPlaylistAction.h"
+#import "MusicPlaylistAction.h"
 #import <ScriptingBridge/ScriptingBridge.h>
-#import "iTunes.h"
+#import "Music.h"
 #import "DSLogger.h"
 
-@implementation ITunesPlaylistAction
+@implementation MusicPlaylistAction
 
 - (id) init {
 	self = [super init];
@@ -62,19 +62,19 @@
 
 - (BOOL) execute: (NSString **) errorString {
 	@try {
-		iTunesApplication *iTunes = [SBApplication applicationWithBundleIdentifier: @"com.apple.iTunes"];
+		MusicApplication *music = [SBApplication applicationWithBundleIdentifier: @"com.apple.Music"];
 		
 		// find library
-		iTunesSource *library = [iTunes.sources objectWithName: @"Library"];
+		MusicSource *library = [music.sources objectWithName: @"Library"];
 		
 		// find playlist
-		iTunesPlaylist *p = [library.playlists objectWithName: playlist];
+		MusicPlaylist *p = [library.playlists objectWithName: playlist];
 		
 		// play random track
 		[p playOnce: false];
 	} @catch (NSException *e) {
 		DSLog(@"Exception: %@", e);
-		*errorString = NSLocalizedString(@"Couldn't play playlist!", @"In ITunesPlaylistAction");
+		*errorString = NSLocalizedString(@"Couldn't play playlist!", @"In MusicPlaylistAction");
 		return NO;
 	}
 	
@@ -82,27 +82,27 @@
 }
 
 + (NSString *) helpText {
-	return NSLocalizedString(@"The parameter for iTunesPlaylist actions is the name of "
-							 "the playlist to be played in iTunes.", @"");
+	return NSLocalizedString(@"The parameter for MusicPlaylist actions is the name of "
+							 "the playlist to be played in Music.", @"");
 }
 
 + (NSString *) creationHelpText {
-	return NSLocalizedString(@"Play in iTunes (playlist):", @"");
+	return NSLocalizedString(@"Play in Music (playlist):", @"");
 }
 
 + (NSArray *) limitedOptions {
 	NSMutableArray *options = nil;
 	
 	@try {
-		iTunesApplication *iTunes = [SBApplication applicationWithBundleIdentifier: @"com.apple.iTunes"];
+		MusicApplication *music = [SBApplication applicationWithBundleIdentifier: @"com.apple.Music"];
 		
 		// find library
-		iTunesSource *library = [iTunes.sources objectWithName: @"Library"];
+		MusicSource *library = [music.sources objectWithName: @"Library"];
 		SBElementArray *playlists = library.userPlaylists;
 		options = [NSMutableArray arrayWithCapacity: playlists.count];
 		
 		// for each playlist
-		for (iTunesPlaylist *item in playlists)
+		for (MusicPlaylist *item in playlists)
 			[options addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 								item.name, @"option", item.name, @"description", nil]];
 		
@@ -115,7 +115,7 @@
 }
 
 + (NSString *) friendlyName {
-    return NSLocalizedString(@"Play iTunes Playlist", @"");
+    return NSLocalizedString(@"Play Music Playlist", @"");
 }
 
 + (NSString *)menuCategory {

@@ -56,10 +56,15 @@
 - (BOOL) execute: (NSString **) errorString {
 	@try {
 		MessagesApplication *Messages = [SBApplication applicationWithBundleIdentifier: @"com.apple.iChat"];
-		
-		// set status message
-		Messages.statusMessage = status;
-		
+		if ([Messages respondsToSelector:NSSelectorFromString(@"statusMessage")]) {
+			// set status message
+			[Messages setValue:status forKey:@"statusMessage"];
+		} else {
+			NSException* statusMessageDoesNotExistException = [NSException
+															   exceptionWithName:@"statusMessageDoesNotExistException"
+															   reason:@"The property 'statusMessage' does not exist on type 'MessagesApplication'"
+															   userInfo:nil];
+		}
 	} @catch (NSException *e) {
 		DSLog(@"Exception: %@", e);
 		*errorString = NSLocalizedString(@"Couldn't set Messages/iChat status!", @"In MessagesAction");
