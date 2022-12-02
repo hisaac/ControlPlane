@@ -1,5 +1,5 @@
 //
-//	ITunesPlaylistAction.h
+//	MusicPlaylistAction.h
 //	ControlPlane
 //
 //	Created by David Jennes on 03/09/11.
@@ -9,7 +9,7 @@
 #import "Action.h"
 
 
-@interface ITunesPlaylistAction : Action <ActionWithLimitedOptions> {
+@interface MusicPlaylistAction : Action <ActionWithLimitedOptions> {
 	NSString *playlist;
 }
 
